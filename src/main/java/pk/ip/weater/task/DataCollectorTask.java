@@ -28,6 +28,43 @@ public class DataCollectorTask
         this.weaterService = weaterService;
     }
     
+    public void collestYesterdayHistory()
+    {
+        logger.debug("Rozpoczęto zadanie collestYesterdayHistory");
+               
+        Date date = weaterService.findTheNewestHistoryDate();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        
+        date = calendar.getTime();
+        
+        Date today = new Date();
+        calendar.setTime(today);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        
+        today = calendar.getTime();
+        
+        if(today.after(date))
+        {
+            List<City> cities = weaterService.findCities();
+            
+            Set<pk.ip.weater.domain.Observation> observations = findObservations(date, cities);
+
+            weaterService.insertObservations(observations);
+        }
+        else
+        {
+            logger.debug("Dane historyczne wczorajsze zostały już wcześniej zaktualizowane");
+        }
+        
+        logger.debug("Zakończono zadanie collestYesterdayHistory");
+    }
+    
     public void collectWeaterHistory()
     {
         logger.debug("Rozpoczęto zadanie collectWeaterHistory");

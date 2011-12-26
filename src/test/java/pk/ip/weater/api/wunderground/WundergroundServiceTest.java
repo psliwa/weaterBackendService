@@ -1,8 +1,7 @@
 package pk.ip.weater.api.wunderground;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import pk.ip.weater.core.MessageParser;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.junit.*;
 import pk.ip.weater.core.JsonMessageParser;
 import static org.junit.Assert.*;
@@ -15,8 +14,7 @@ public class WundergroundServiceTest
     @Before()
     public void init()
     {
-        Gson gson = new GsonBuilder().serializeNulls().create();
-        MessageParser messageParser = new JsonMessageParser(gson);
+        MessageParser messageParser = new JsonMessageParser(new ObjectMapper());
         
         service = new WundergroundService(messageParser, apiKey);
     }

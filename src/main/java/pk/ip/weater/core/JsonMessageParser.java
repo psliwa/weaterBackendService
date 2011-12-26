@@ -1,25 +1,42 @@
 package pk.ip.weater.core;
 
-import com.google.gson.Gson;
+import java.io.IOException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig.Feature;
 
 public class JsonMessageParser implements MessageParser
 {
-    private Gson gson;
+    private ObjectMapper mapper;
     
-    public JsonMessageParser(Gson gson)
+    public JsonMessageParser(ObjectMapper mapper)
     {
-        this.gson = gson;
+        mapper.configure(Feature.FAIL_ON_EMPTY_BEANS, false);
+        this.mapper = mapper;
     }
 
     @Override
     public <T> T parseMessage(String message, Class<T> cls)
     {
-        return gson.fromJson(message, cls);
+        try
+        {
+            return mapper.readValue(message, cls);
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
     public String createMessage(Object object)
     {
-        return gson.toJson(object);
+        try
+        {
+            return mapper.writeValueAsString(object);
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException(ex);
+        }
     }
 }

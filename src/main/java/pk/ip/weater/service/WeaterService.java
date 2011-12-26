@@ -12,4 +12,5 @@ public interface WeaterService
     public void insertObservations(Set<Observation> observations);
     public Date findTheEarliestHistoryDate();
     public List<City> findCities();
+    public Date findTheNewestHistoryDate();
 }

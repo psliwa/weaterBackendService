@@ -1,6 +1,9 @@
 package pk.ip.weater.api.wunderground.model.forecast;
 
-class ForecastDay
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ForecastDay
 {
     public DateInformation date;
     public int period;

@@ -21,10 +21,9 @@
     <context:property-placeholder location="classpath:config.properties" />
     <context:annotation-config />    
     
-    <bean id="gsonBuilder" class="com.google.gson.GsonBuilder" />
-    <bean id="gson" class="com.google.gson.Gson" factory-bean="gsonBuilder" factory-method="create" />
+    <bean id="jsonMapper" class="org.codehaus.jackson.map.ObjectMapper" />
     <bean id="messageParser" class="pk.ip.weater.core.JsonMessageParser">
-        <constructor-arg ref="gson" />
+        <constructor-arg ref="jsonMapper" />
     </bean>
     
     <bean id="wundergroundService" class="pk.ip.weater.api.wunderground.WundergroundService">
@@ -44,7 +43,8 @@
     <task:executor id="taskExecutor" />
     
     <task:scheduled-tasks scheduler="taskScheduler">
-        <task:scheduled ref="dataCollectorTask" method="collectWeaterHistory" cron="0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57 * * * * *" />
+        <task:scheduled ref="dataCollectorTask" method="collectWeaterHistory" cron="0 0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57 * * * *" />
+        <task:scheduled ref="dataCollectorTask" method="collestYesterdayHistory" cron="0 0 10,22 * * *" />
     </task:scheduled-tasks>
     
     <bean id="weaterService" class="pk.ip.weater.service.WeaterServiceImpl">

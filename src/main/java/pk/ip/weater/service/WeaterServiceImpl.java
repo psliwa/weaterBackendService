@@ -20,12 +20,10 @@ public class WeaterServiceImpl implements WeaterService
 {
     private final static String INSERT_QUERY = "insert into observation values(:city.id, :date, :type.value, :windSpeed, :temperature, :windchillTemperature, :humidity, :visibility, :pressure, :fog, :rain, :snow, :hail, :thunder, :tornado)";
     
-    private DataSource dataSource;
     private NamedParameterJdbcTemplate template;    
 
     public WeaterServiceImpl(DataSource dataSource)
     {
-        this.dataSource = dataSource;
         template = new NamedParameterJdbcTemplate(dataSource);
     }
     
@@ -70,6 +68,28 @@ public class WeaterServiceImpl implements WeaterService
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime(earliestDate);
             calendar.add(Calendar.DAY_OF_MONTH, -1);
+            
+            return calendar.getTime();
+        }
+    }
+    
+    @Override
+    public Date findTheNewestHistoryDate()
+    {
+        Date newestDate = template.getJdbcOperations().queryForObject("SELECT MAX(date) from observation", Date.class);
+        
+        if(newestDate == null)
+        {
+            Calendar calendar = new GregorianCalendar();
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
+            
+            return calendar.getTime();
+        }
+        else
+        {
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(newestDate);
+            calendar.add(Calendar.DAY_OF_MONTH, +1);
             
             return calendar.getTime();
         }

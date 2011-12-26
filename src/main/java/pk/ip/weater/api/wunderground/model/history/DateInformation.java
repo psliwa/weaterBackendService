@@ -1,5 +1,8 @@
 package pk.ip.weater.api.wunderground.model.history;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DateInformation
 {
     public String year;
