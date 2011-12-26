@@ -15,12 +15,21 @@ public class WeaterController
         this.task = task;
     }
     
-    @RequestMapping("/test")
+    @RequestMapping("/test1")
     @ResponseBody()
-    public String test()
+    public String test1()
     {
         task.collectWeaterHistory();
         
-        return "abc";
+        return "test1";
+    }
+    
+    @RequestMapping("/test2")
+    @ResponseBody()
+    public String test2()
+    {
+        task.collestYesterdayHistory();
+        
+        return "test2";
     }
 }
