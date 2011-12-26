@@ -8,10 +8,13 @@ import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import pk.ip.weater.api.wunderground.WundergroundService;
+import pk.ip.weater.api.wunderground.model.forecast.ForecastDay;
+import pk.ip.weater.api.wunderground.model.forecast.SimpleForecast;
 import pk.ip.weater.api.wunderground.model.history.History;
 import pk.ip.weater.api.wunderground.model.history.Observation;
 import pk.ip.weater.api.wunderground.model.history.SummaryObservation;
 import pk.ip.weater.domain.City;
+import pk.ip.weater.domain.Forecast;
 import pk.ip.weater.domain.Observation.Type;
 import pk.ip.weater.service.WeaterService;
 
@@ -125,12 +128,24 @@ public class DataCollectorTask
         domainObservation.setWindSpeed(observation.wdird);
         domainObservation.setWindchillTemperature(observation.windchillm);
 
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(getInteger(observation.date.year), getInteger(observation.date.mon), getInteger(observation.date.mday), getInteger(observation.date.hour), getInteger(observation.date.min), 0);
-
-        domainObservation.setDate(calendar.getTime());
+        Date date = createDate(observation.date.year, observation.date.mon, observation.date.mday, observation.date.hour, observation.date.min);
+        
+        domainObservation.setDate(date);
         
         return domainObservation;
+    }
+    
+    private Date createDate(String year, String month, String day, String hour, String minute)
+    {
+        return createDate(getInteger(year), getInteger(month) - 1, getInteger(day), getInteger(hour), getInteger(minute), 0);
+    }
+    
+    private Date createDate(int year, int month, int day, int hour, int minute, int seconds)
+    {
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(year, month, day, hour, minute, seconds);
+        
+        return calendar.getTime();
     }
     
     private int getInteger(String s)
@@ -165,5 +180,56 @@ public class DataCollectorTask
         domainObservation.setDate(date);
         
         return domainObservation;
+    }
+    
+    public void collectForecast()
+    {
+        logger.debug("Rozpoczęto zadanie collectForecast");
+        
+        List<City> cities = weaterService.findCities();
+        Set<Forecast> forecasts = new HashSet<Forecast>();
+        
+        for(City city : cities)
+        {
+            logger.debug("Pobieranie prognozy dla miasta: "+city);
+            SimpleForecast simpleForecast = service.findForecast(city.getName());
+            
+            for(ForecastDay forecastDay : simpleForecast.forecastday)
+            {
+                Forecast forecast = createForecast(forecastDay, city);
+                forecasts.add(forecast);
+            }
+        }
+        
+        logger.debug("Aktualizacja bazy danych");
+        weaterService.replaceForecast(forecasts);
+        
+        logger.debug("Zakończono zadanie collectForecast");
+    }
+
+    private Forecast createForecast(ForecastDay forecastDay, City city)
+    {
+        Forecast forecast = new Forecast();
+        
+        forecast.setCity(city);
+        
+        Date date = createDate(forecastDay.date.year, forecastDay.date.month, forecastDay.date.day, forecastDay.date.hour, forecastDay.date.min);
+        forecast.setDate(date);
+        
+        forecast.setHumidity(forecastDay.avehumidity);
+        forecast.setMaxTemperature(forecastDay.high.celsius);
+        forecast.setMinTemperature(forecastDay.low.celsius);
+        
+        forecast.setRainAll(forecastDay.qpf_allday.mm);
+        forecast.setRainDay(forecastDay.qpf_day.mm);
+        forecast.setRainNight(forecastDay.qpf_night.mm);
+        
+        forecast.setSnowAll(forecastDay.snow_allday.cm);
+        forecast.setSnowDay(forecastDay.snow_day.cm);
+        forecast.setSnowNight(forecastDay.snow_night.cm);
+        
+        forecast.setWindSpeed(forecastDay.avewind.kph);
+        
+        return forecast;
     }
 }

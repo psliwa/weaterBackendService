@@ -14,11 +14,13 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import pk.ip.weater.domain.City;
+import pk.ip.weater.domain.Forecast;
 import pk.ip.weater.domain.Observation;
 
 public class WeaterServiceImpl implements WeaterService
 {
-    private final static String INSERT_QUERY = "insert into observation values(:city.id, :date, :type.value, :windSpeed, :temperature, :windchillTemperature, :humidity, :visibility, :pressure, :fog, :rain, :snow, :hail, :thunder, :tornado)";
+    private final static String INSERT_OBSERVATION_QUERY = "insert into observation values(:city.id, :date, :type.value, :windSpeed, :temperature, :windchillTemperature, :humidity, :visibility, :pressure, :fog, :rain, :snow, :hail, :thunder, :tornado)";
+    private final static String INSERT_FORECAST_QUERY = "insert into forecast values(:city.id, :date, :maxTemperature, :minTemperature, :windSpeed, :humidity, :snowAll, :snowDay, :snowNight, :rainAll, :rainDay, :rainNight)";
     
     private NamedParameterJdbcTemplate template;    
 
@@ -34,7 +36,7 @@ public class WeaterServiceImpl implements WeaterService
 
         try
         {
-            template.update(INSERT_QUERY, parameters);
+            template.update(INSERT_OBSERVATION_QUERY, parameters);
         }
         catch(DuplicateKeyException e)
         {
@@ -111,6 +113,25 @@ public class WeaterServiceImpl implements WeaterService
             city.setName(rs.getString("name"));
             
             return city;
+        }
+    }
+    
+    @Override
+    public void replaceForecast(Set<Forecast> forecasts)
+    {
+        template.getJdbcOperations().update("TRUNCATE forecast");
+        
+        for(Forecast forecast : forecasts)
+        {
+            try
+            {
+                SqlParameterSource parameters = new BeanPropertySqlParameterSource(forecast);
+                template.update(INSERT_FORECAST_QUERY, parameters);
+            }
+            catch(DuplicateKeyException e)
+            {
+                //duplikacja, ignoruj
+            }
         }
     }
 }

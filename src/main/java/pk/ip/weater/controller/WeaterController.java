@@ -32,4 +32,13 @@ public class WeaterController
         
         return "test2";
     }
+    
+    @RequestMapping("/test3")
+    @ResponseBody()
+    public String test3()
+    {
+        task.collectForecast();
+        
+        return "test3";
+    }
 }
