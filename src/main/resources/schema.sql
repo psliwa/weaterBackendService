@@ -7,6 +7,9 @@ CREATE TABLE IF NOT EXISTS `city` (
 CREATE TABLE IF NOT EXISTS `observation` (
     `cityId` INT NOT NULL,
     `date` DATETIME NOT NULL,
+    `year` INT,
+    `month` SMALLINT,
+    `dayOfMonth` SMALLINT,
     `type` ENUM('DETAIL', 'SUMMARY') NOT NULL,
     `windSpeed` DECIMAL(5, 2) NOT NULL,
     `temperature` DECIMAL(4, 2) NOT NULL,

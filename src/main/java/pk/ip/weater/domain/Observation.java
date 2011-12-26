@@ -1,11 +1,18 @@
 package pk.ip.weater.domain;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Observation
 {
     private City city;
     private Date date;
+    
+    private int year;
+    private int month;
+    private int dayOfMonth;
+    
     private float windSpeed;
     private float temperature;
     private float windchillTemperature;
@@ -100,6 +107,11 @@ public class Observation
     public void setDate(Date date)
     {
         this.date = date;
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH) + 1;
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     public void setFog(int fog)
@@ -170,6 +182,21 @@ public class Observation
     public void setType(Type type)
     {
         this.type = type;
+    }
+
+    public int getDayOfMonth()
+    {
+        return dayOfMonth;
+    }
+
+    public int getMonth()
+    {
+        return month;
+    }
+
+    public int getYear()
+    {
+        return year;
     }
     
     public static enum Type
