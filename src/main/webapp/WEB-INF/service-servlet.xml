@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+          http://www.springframework.org/schema/task
+          http://www.springframework.org/schema/task/spring-task-3.0.xsd
+          http://www.springframework.org/schema/aop
+          http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+" >
+    <import resource="jdbc.xml" />
+    
+    <context:property-placeholder location="classpath:config.properties" />
+    <context:annotation-config />    
+    
+    <bean id="gsonBuilder" class="com.google.gson.GsonBuilder" />
+    <bean id="gson" class="com.google.gson.Gson" factory-bean="gsonBuilder" factory-method="create" />
+    <bean id="messageParser" class="pk.ip.weater.core.JsonMessageParser">
+        <constructor-arg ref="gson" />
+    </bean>
+    
+    <bean id="wundergroundService" class="pk.ip.weater.api.wunderground.WundergroundService">
+        <constructor-arg ref="messageParser" />
+        <constructor-arg value="${wunderground.apikey}" />
+    </bean>
+    
+    <bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
+    </bean>
+    
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+    </bean>
+    
+    <task:scheduler id="taskScheduler" pool-size="4" />
+    <task:executor id="taskExecutor" />
+    
+    <task:scheduled-tasks scheduler="taskScheduler">
+        <task:scheduled ref="dataCollectorTask" method="collectWeaterHistory" cron="0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57 * * * * *" />
+    </task:scheduled-tasks>
+    
+    <bean id="weaterService" class="pk.ip.weater.service.WeaterServiceImpl">
+        <constructor-arg ref="dataSource" />
+    </bean>
+    
+    <bean id="dataCollectorTask" class="pk.ip.weater.task.DataCollectorTask">
+        <constructor-arg ref="weaterService" />
+        <constructor-arg ref="wundergroundService" />
+    </bean>
+    
+    <bean id="controller" class="pk.ip.weater.controller.WeaterController">
+        <constructor-arg ref="dataCollectorTask" />
+    </bean>
+
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="insert*" />
+            <tx:method name="find*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* pk.ip.weater.service.*.*(..))" />
+    </aop:config>
+</beans>

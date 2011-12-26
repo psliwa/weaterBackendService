@@ -3,23 +3,60 @@ package pk.ip.weater.api.wunderground.model.history;
 public class Observation
 {
     public DateInformation date;
+    
+    /**
+     * temp w C
+     */
     public float tempm;
-    public float tempi;
-    public float dewptm;
-    public float dewpti;
-    public float hum;
+    
+    /**
+     * wilgotność
+     */
+    public int hum;
+    
+    /**
+     * Kierunek wiatru w stopniach
+     */
     public float wdird;
+    
+    /**
+     * opis kierunku wiatru (np. SW)
+     */
     public String wdire;
+    
+    /**
+     * Siła wiatru w km/h
+     */
+    public float wspdm;
+    
+    /**
+     * widoczność w Km
+     */
     public float vism;
-    public float visi;
+    
+    /**
+     * Ciśnienie w mBar
+     */
     public float pressurem;
+    
+    /**
+     * Ciśnienie w inHg
+     */
     public float pressurei;
+    
+    /**
+     * Odczuwalna temperatura w C
+     */
     public float windchillm;
-    public float windchilli;
+
+    /**
+     * współczynnik ciepła w C (?)
+     */
     public float heatindexm;
-    public float heatindexi;
+
     public String conds;
     public String icon;
+    
     public int fog;
     public int rain;
     public int snow;

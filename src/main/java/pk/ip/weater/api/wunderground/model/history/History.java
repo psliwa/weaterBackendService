@@ -4,4 +4,5 @@ public class History
 {
     public DateInformation date;
     public Observation[] observations;
+    public SummaryObservation[] dailysummary;
 }
