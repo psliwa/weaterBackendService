@@ -65,7 +65,7 @@
         <constructor-arg ref="wundergroundService" />
     </bean>
     
-    <bean id="controller" class="pk.ip.weater.controller.WeaterController">
+    <bean id="controller" class="pk.ip.weater.web.controller.WeaterController">
         <constructor-arg ref="dataCollectorTask" />
         <constructor-arg ref="weaterService" />
     </bean>

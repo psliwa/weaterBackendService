@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -149,7 +149,7 @@ public class WeaterServiceImpl implements WeaterService
     @Override
     public Map<String, Float> findHistoricalData(City city, DateInterval interval, StatisticsType type, Period period)
     {
-        String query = "SELECT "+buildSelect(type, period)+" FROM `observation` WHERE `type`=? AND `cityId`=? AND `date` BETWEEN ? AND ? GROUP BY `"+period.getProperty()+"`";
+        String query = "SELECT "+buildSelect(type, period)+" FROM `observation` WHERE `type`=? AND `cityId`=? AND `date` BETWEEN ? AND ? ORDER BY `date` GROUP BY `"+period.getProperty()+"`";
         Object[] parameters = new Object[] { Observation.Type.SUMMARY.toString(), city.getId(), interval.getStart(), interval.getEnd() };
         
         return template.getJdbcOperations().query(query, parameters, new ResultSetExtractor<Map<String, Float>>(){
@@ -157,7 +157,7 @@ public class WeaterServiceImpl implements WeaterService
             @Override
             public Map<String, Float> extractData(ResultSet rs) throws SQLException, DataAccessException
             {
-                Map<String, Float> map = new HashMap<String, Float>();
+                Map<String, Float> map = new LinkedHashMap<String, Float>();
                 
                 while(rs.next())
                 {
@@ -180,7 +180,7 @@ public class WeaterServiceImpl implements WeaterService
     @Override
     public List<Forecast> findForecast(City city)
     {
-        return template.getJdbcOperations().query("select * from forecast where cityId=?", new Object[] { city.getId() }, new ForecastMapper(city));
+        return template.getJdbcOperations().query("select * from forecast where cityId=? order by `date`", new Object[] { city.getId() }, new ForecastMapper(city));
     }
     
     private static class ForecastMapper implements RowMapper<Forecast>
@@ -210,6 +210,5 @@ public class WeaterServiceImpl implements WeaterService
             
             return forecast;
         }
-        
     }
 }

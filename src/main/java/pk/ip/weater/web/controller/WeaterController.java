@@ -1,4 +1,4 @@
-package pk.ip.weater.controller;
+package pk.ip.weater.web.controller;
 
 import java.util.Date;
 import java.util.List;
