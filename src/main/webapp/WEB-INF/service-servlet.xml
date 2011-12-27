@@ -50,11 +50,11 @@
     <task:scheduler id="taskScheduler" pool-size="4" />
     <task:executor id="taskExecutor" />
     
-    <task:scheduled-tasks scheduler="taskScheduler">
+<!--    <task:scheduled-tasks scheduler="taskScheduler">
         <task:scheduled ref="dataCollectorTask" method="collectWeaterHistory" cron="0 0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57 * * * *" />
         <task:scheduled ref="dataCollectorTask" method="collestYesterdayHistory" cron="0 0 10,22 * * *" />
         <task:scheduled ref="dataCollectorTask" method="collectForecast" cron="0 0 1,7,13,19 * * *" />
-    </task:scheduled-tasks>
+    </task:scheduled-tasks>-->
     
     <bean id="weaterService" class="pk.ip.weater.service.WeaterServiceImpl">
         <constructor-arg ref="dataSource" />

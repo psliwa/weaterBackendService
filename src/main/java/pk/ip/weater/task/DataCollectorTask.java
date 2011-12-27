@@ -54,11 +54,7 @@ public class DataCollectorTask
         
         if(today.after(date))
         {
-            List<City> cities = weaterService.findCities();
-            
-            Set<pk.ip.weater.domain.Observation> observations = findObservations(date, cities);
-
-            weaterService.insertObservations(observations);
+            collectWeaterHistory(date);
         }
         else
         {
@@ -68,21 +64,24 @@ public class DataCollectorTask
         logger.debug("Zakończono zadanie collestYesterdayHistory");
     }
     
-    public void collectWeaterHistory()
+    public void collectWeaterHistory(Date date)
     {
-        logger.debug("Rozpoczęto zadanie collectWeaterHistory");
+        logger.debug("Rozpoczęto zbieranie danych historycznych dla daty: "+date);
         
         List<City> cities = weaterService.findCities();
         
-        Date date = weaterService.findTheEarliestHistoryDate();
-        
-        logger.debug("Data ostatnie aktualizacji: "+date);
-        
         Set<pk.ip.weater.domain.Observation> observations = findObservations(date, cities);
         
+        logger.debug("Aktualizacja bazy danych");
         weaterService.insertObservations(observations);
         
-        logger.debug("Zakończono zadanie collectWeaterHistory");
+        logger.debug("Zakończono zbieranie danych historycznych");
+    }
+    
+    public void collectWeaterHistory()
+    {
+        Date date = weaterService.findTheEarliestHistoryDate();
+        collectWeaterHistory(date);
     }
     
     private Set<pk.ip.weater.domain.Observation> findObservations(Date date, List<City> cities)
@@ -91,6 +90,7 @@ public class DataCollectorTask
         for(City city : cities)
         {
             History history = service.findHistory(date, city.getName());
+            
             for(Observation observation : history.observations)
             {
                 pk.ip.weater.domain.Observation domainObservation = createObservation(observation, city, pk.ip.weater.domain.Observation.Type.DETAIL);
@@ -103,7 +103,7 @@ public class DataCollectorTask
                 observations.add(domainObservation);
             }
             
-            logger.debug("Zaktualizowano historię dla miasta "+city);
+            logger.debug("Pobrano dane historyczne dla miasta: "+city);
         }
         
         return observations;
@@ -175,7 +175,7 @@ public class DataCollectorTask
         domainObservation.setThunder(observation.thunder);
         domainObservation.setTornado(observation.tornado);
         domainObservation.setVisibility(observation.meanvism);
-        domainObservation.setWindSpeed(observation.meanwdird);
+        domainObservation.setWindSpeed(observation.meanwindspdm);
 
         domainObservation.setDate(date);
         

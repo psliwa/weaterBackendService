@@ -72,4 +72,10 @@ public class WeaterController implements ApplicationContextAware
     {
         context = applicationContext;
     }
+    
+//    @RequestMapping("/test/{date}")
+//    public void test(@PathVariable("date") @DateTimeFormat(iso=ISO.DATE) Date date)
+//    {
+//        task.collectWeaterHistory(date);
+//    }
 }
