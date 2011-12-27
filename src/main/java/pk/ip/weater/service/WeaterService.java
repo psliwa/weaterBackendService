@@ -15,7 +15,9 @@ public interface WeaterService
     public void insertObservations(Set<Observation> observations);
     public Date findTheEarliestHistoryDate();
     public List<City> findCities();
+    public City findCity(Long id);
     public Date findTheNewestHistoryDate();
     public void replaceForecast(Set<Forecast> forecasts);
     public Map<String, Float> findHistoricalData(City city, DateInterval interval, StatisticsType type, Period period);
+    public List<Forecast> findForecast(City city);
 }

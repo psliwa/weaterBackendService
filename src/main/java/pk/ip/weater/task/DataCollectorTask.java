@@ -125,7 +125,7 @@ public class DataCollectorTask
         domainObservation.setThunder(observation.thunder);
         domainObservation.setTornado(observation.tornado);
         domainObservation.setVisibility(observation.vism);
-        domainObservation.setWindSpeed(observation.wdird);
+        domainObservation.setWindSpeed(observation.wspdm);
         domainObservation.setWindchillTemperature(observation.windchillm);
 
         Date date = createDate(observation.date.year, observation.date.mon, observation.date.mday, observation.date.hour, observation.date.min);

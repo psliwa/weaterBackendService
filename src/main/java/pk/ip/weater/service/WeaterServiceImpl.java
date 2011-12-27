@@ -122,6 +122,12 @@ public class WeaterServiceImpl implements WeaterService
     }
     
     @Override
+    public City findCity(Long id)
+    {
+        return template.getJdbcOperations().queryForObject("select id, name from city where id=?", new Object[] { id }, new CityMapper());
+    }
+    
+    @Override
     public void replaceForecast(Set<Forecast> forecasts)
     {
         template.getJdbcOperations().update("TRUNCATE forecast");
@@ -140,6 +146,7 @@ public class WeaterServiceImpl implements WeaterService
         }
     }
           
+    @Override
     public Map<String, Float> findHistoricalData(City city, DateInterval interval, StatisticsType type, Period period)
     {
         String query = "SELECT "+buildSelect(type, period)+" FROM `observation` WHERE `type`=? AND `cityId`=? AND `date` BETWEEN ? AND ? GROUP BY `"+period.getProperty()+"`";
@@ -168,5 +175,41 @@ public class WeaterServiceImpl implements WeaterService
         String property = type.getProperty();
         
         return operation+"(`"+property+"`) AS `value`, `"+period.getProperty()+"` AS `key`";
+    }
+    
+    @Override
+    public List<Forecast> findForecast(City city)
+    {
+        return template.getJdbcOperations().query("select * from forecast where cityId=?", new Object[] { city.getId() }, new ForecastMapper(city));
+    }
+    
+    private static class ForecastMapper implements RowMapper<Forecast>
+    {
+        private City city;
+        
+        ForecastMapper(City city)
+        {
+            this.city = city;
+        }
+        @Override
+        public Forecast mapRow(ResultSet rs, int i) throws SQLException
+        {
+            Forecast forecast = new Forecast();
+            forecast.setDate(rs.getDate("date"));
+            forecast.setHumidity(rs.getFloat("humidity"));
+            forecast.setMaxTemperature(rs.getFloat("maxTemperature"));
+            forecast.setMinTemperature(rs.getFloat("minTemperature"));
+            forecast.setRainAll(rs.getFloat("rainAll"));
+            forecast.setRainDay(rs.getFloat("rainDay"));
+            forecast.setRainNight(rs.getFloat("rainNight"));
+            forecast.setSnowAll(rs.getFloat("snowAll"));
+            forecast.setSnowDay(rs.getFloat("snowDay"));
+            forecast.setSnowNight(rs.getFloat("snowNight"));
+            forecast.setWindSpeed(rs.getFloat("windSpeed"));
+            forecast.setCity(city);
+            
+            return forecast;
+        }
+        
     }
 }

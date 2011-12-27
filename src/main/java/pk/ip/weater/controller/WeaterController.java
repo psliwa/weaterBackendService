@@ -1,73 +1,75 @@
 package pk.ip.weater.controller;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Map;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 import pk.ip.weater.core.DateInterval;
 import pk.ip.weater.domain.City;
+import pk.ip.weater.domain.Forecast;
 import pk.ip.weater.service.Period;
 import pk.ip.weater.service.StatisticsType;
 import pk.ip.weater.service.WeaterService;
 import pk.ip.weater.task.DataCollectorTask;
 
 @Controller()
-public class WeaterController
+public class WeaterController implements ApplicationContextAware
 {
     DataCollectorTask task;
     WeaterService weaterService;
+    ApplicationContext context;
     
     public WeaterController(DataCollectorTask task, WeaterService weaterService)
     {
         this.task = task;
         this.weaterService = weaterService;
     }
-    
-    @RequestMapping("/test1")
-    @ResponseBody()
-    public String test1()
+
+    @RequestMapping("/history/{dateStart}/{dateEnd}/{city}/{type}/{period}")
+    public ModelAndView findHistoricalStatistics(@PathVariable("dateStart") @DateTimeFormat(iso=ISO.DATE) Date dateStart, @PathVariable("dateEnd") @DateTimeFormat(iso=ISO.DATE) Date dateEnd, @PathVariable("city") City city, @PathVariable("type") StatisticsType type, @PathVariable("period") Period period)
     {
-        task.collectWeaterHistory();
+        Map<String, Float> results = weaterService.findHistoricalData(city, new DateInterval(dateStart, dateEnd), type, period);
         
-        return "test1";
+        return createModelAndView(results);
     }
     
-    @RequestMapping("/test2")
-    @ResponseBody()
-    public String test2()
+    private ModelAndView createModelAndView(Object results)
     {
-        task.collestYesterdayHistory();
-        
-        return "test2";
+        ModelAndView mav = new ModelAndView();
+        mav.setView(context.getBean("jsonView", View.class));
+        mav.addObject("responseCode", 200);
+        mav.addObject("results", results);
+        return mav;
     }
     
-    @RequestMapping("/test3")
-    @ResponseBody()
-    public String test3()
+    @RequestMapping("/cities")
+    public ModelAndView findCities()
     {
-        task.collectForecast();
+        List<City> cities = weaterService.findCities();
         
-        return "test3";
+        return createModelAndView(cities.toArray());
     }
     
-    @RequestMapping("/test4")
-    @ResponseBody()
-    public String test4(@RequestParam() Long cityId, @RequestParam() StatisticsType type, @RequestParam() Period period)
+    @RequestMapping("/forecast/{city}")
+    public ModelAndView findForecast(@PathVariable("city") City city)
     {
-        City city = new City();
-        city.setId(cityId);
-        
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(2010, 0, 1);
-        Date dateStart = calendar.getTime();
-        calendar.set(2011, 11, 31);
-        Date dateEnd = calendar.getTime();
-        
-        DateInterval interval = new DateInterval(dateStart, dateEnd);
-        
-        return weaterService.findHistoricalData(city, interval, type, period).toString();
+        List<Forecast> forecasts = weaterService.findForecast(city);
+
+        return createModelAndView(forecasts.toArray());
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+    {
+        context = applicationContext;
     }
 }
