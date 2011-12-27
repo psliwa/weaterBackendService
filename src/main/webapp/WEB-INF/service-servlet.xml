@@ -30,11 +30,11 @@
     
     <bean id="jsonMapper" class="org.codehaus.jackson.map.ObjectMapper" />
     
-    <bean id="messageParser" class="pk.ip.weater.core.JsonMessageParser">
+    <bean id="messageParser" class="pk.ip.weather.core.JsonMessageParser">
         <constructor-arg ref="jsonMapper" />
     </bean>
     
-    <bean id="wundergroundService" class="pk.ip.weater.api.wunderground.WundergroundService">
+    <bean id="wundergroundService" class="pk.ip.weather.api.wunderground.WundergroundService">
         <constructor-arg ref="messageParser" />
         <constructor-arg value="${wunderground.apikey}" />
     </bean>
@@ -51,23 +51,23 @@
     <task:executor id="taskExecutor" />
     
 <!--    <task:scheduled-tasks scheduler="taskScheduler">
-        <task:scheduled ref="dataCollectorTask" method="collectWeaterHistory" cron="0 0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57 * * * *" />
+        <task:scheduled ref="dataCollectorTask" method="collectWeatherHistory" cron="0 0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57 * * * *" />
         <task:scheduled ref="dataCollectorTask" method="collestYesterdayHistory" cron="0 0 10,22 * * *" />
         <task:scheduled ref="dataCollectorTask" method="collectForecast" cron="0 0 1,7,13,19 * * *" />
     </task:scheduled-tasks>-->
     
-    <bean id="weaterService" class="pk.ip.weater.service.WeaterServiceImpl">
+    <bean id="weatherService" class="pk.ip.weather.service.WeatherServiceImpl">
         <constructor-arg ref="dataSource" />
     </bean>
     
-    <bean id="dataCollectorTask" class="pk.ip.weater.task.DataCollectorTask">
-        <constructor-arg ref="weaterService" />
+    <bean id="dataCollectorTask" class="pk.ip.weather.task.DataCollectorTask">
+        <constructor-arg ref="weatherService" />
         <constructor-arg ref="wundergroundService" />
     </bean>
     
-    <bean id="controller" class="pk.ip.weater.web.controller.WeaterController">
+    <bean id="controller" class="pk.ip.weather.web.controller.WeatherController">
         <constructor-arg ref="dataCollectorTask" />
-        <constructor-arg ref="weaterService" />
+        <constructor-arg ref="weatherService" />
     </bean>
 
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -83,7 +83,7 @@
     </tx:advice>
     
     <aop:config>
-        <aop:advisor advice-ref="txAdvice" pointcut="execution(* pk.ip.weater.service.*.*(..))" />
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* pk.ip.weather.service.*.*(..))" />
     </aop:config>
 
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -94,8 +94,8 @@
         </property>
     </bean>
     
-    <bean id="cityConverter" class="pk.ip.weater.web.converter.CityConverter">
-        <constructor-arg ref="weaterService" />
+    <bean id="cityConverter" class="pk.ip.weather.web.converter.CityConverter">
+        <constructor-arg ref="weatherService" />
     </bean>
     
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> 
@@ -106,7 +106,7 @@
         </property> 
     </bean> 
     
-    <bean id="exceptionHandler" class="pk.ip.weater.web.HandlerExceptionResolverImpl">
+    <bean id="exceptionHandler" class="pk.ip.weather.web.HandlerExceptionResolverImpl">
         <constructor-arg ref="jsonView" />
     </bean>
 </beans>
