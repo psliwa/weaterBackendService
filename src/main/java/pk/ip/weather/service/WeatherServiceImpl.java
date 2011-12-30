@@ -149,7 +149,7 @@ public class WeatherServiceImpl implements WeatherService
     @Override
     public Map<String, Float> findHistoricalData(City city, DateInterval interval, StatisticsType type, Period period)
     {
-        String query = "SELECT "+buildSelect(type, period)+" FROM `observation` WHERE `type`=? AND `cityId`=? AND `date` BETWEEN ? AND ? GROUP BY `"+period.getProperty()+"` ORDER BY `date`";
+        String query = "SELECT "+buildSelect(type, period)+" FROM `observation` WHERE `type`=? AND `cityId`=? AND `"+type.getProperty()+"` IS NOT NULL AND `date` BETWEEN ? AND ? GROUP BY `"+period.getProperty()+"` ORDER BY `date`";
         Object[] parameters = new Object[] { Observation.Type.SUMMARY.toString(), city.getId(), interval.getStart(), interval.getEnd() };
         
         return template.getJdbcOperations().query(query, parameters, new ResultSetExtractor<Map<String, Float>>(){

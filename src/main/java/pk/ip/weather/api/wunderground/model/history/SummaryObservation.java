@@ -8,12 +8,12 @@ public class SummaryObservation
     /**
      * Średnia temperatura w C
      */
-    public float meantempm;
+    public Float meantempm;
     
     /**
      * Średnie ciśnienie
      */
-    public float meanpressurem;
+    public Float meanpressurem;
     
     /**
      * Średni kierunek wiatru
@@ -23,27 +23,27 @@ public class SummaryObservation
     /**
      * Średni kierunek wiatru w stopniach
      */
-    public float meanwdird;
+    public Float meanwdird;
     
     /**
      * Średnia siła wiatru w km/h
      */
-    public float meanwindspdm;
+    public Float meanwindspdm;
     
     /**
      * Średnia widoczność w km
      */
-    public float meanvism;
+    public Float meanvism;
     
     /**
      * średnia wilgotność w %
      */
-    public int humidity;
+    public Integer humidity;
     
-    public int fog;
-    public int rain;
-    public int snow;
-    public int hail;
-    public int thunder;
-    public int tornado;
+    public Integer fog;
+    public Integer rain;
+    public Integer snow;
+    public Integer hail;
+    public Integer thunder;
+    public Integer tornado;
 }

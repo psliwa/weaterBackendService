@@ -54,7 +54,7 @@ public class DataCollectorTask
         
         if(today.after(date))
         {
-            collectWeaterHistory(date);
+            collectWeatherHistory(date);
         }
         else
         {
@@ -64,7 +64,7 @@ public class DataCollectorTask
         logger.debug("Zakończono zadanie collestYesterdayHistory");
     }
     
-    public void collectWeaterHistory(Date date)
+    public void collectWeatherHistory(Date date)
     {
         logger.debug("Rozpoczęto zbieranie danych historycznych dla daty: "+date);
         
@@ -78,10 +78,10 @@ public class DataCollectorTask
         logger.debug("Zakończono zbieranie danych historycznych");
     }
     
-    public void collectWeaterHistory()
+    public void collectWeatherHistory()
     {
         Date date = weaterService.findTheEarliestHistoryDate();
-        collectWeaterHistory(date);
+        collectWeatherHistory(date);
     }
     
     private Set<pk.ip.weather.domain.Observation> findObservations(Date date, List<City> cities)

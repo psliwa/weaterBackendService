@@ -9,23 +9,23 @@ public class Observation
     private City city;
     private Date date;
     
-    private int year;
-    private int month;
-    private int dayOfMonth;
+    private Integer year;
+    private Integer month;
+    private Integer dayOfMonth;
     
-    private float windSpeed;
-    private float temperature;
-    private float windchillTemperature;
-    private int humidity;
-    private float visibility;
-    private float pressure;
+    private Float windSpeed;
+    private Float temperature;
+    private Float windchillTemperature;
+    private Integer humidity;
+    private Float visibility;
+    private Float pressure;
     
-    private int fog;
-    private int rain;
-    private int snow;
-    private int hail;
-    private int thunder;
-    private int tornado;
+    private Integer fog;
+    private Integer rain;
+    private Integer snow;
+    private Integer hail;
+    private Integer thunder;
+    private Integer tornado;
     
     private Type type;
 
@@ -39,62 +39,62 @@ public class Observation
         return date;
     }
 
-    public int getFog()
+    public Integer getFog()
     {
         return fog;
     }
 
-    public int getHail()
+    public Integer getHail()
     {
         return hail;
     }
 
-    public int getHumidity()
+    public Integer getHumidity()
     {
         return humidity;
     }
 
-    public float getPressure()
+    public Float getPressure()
     {
         return pressure;
     }
 
-    public int getRain()
+    public Integer getRain()
     {
         return rain;
     }
 
-    public int getSnow()
+    public Integer getSnow()
     {
         return snow;
     }
 
-    public float getTemperature()
+    public Float getTemperature()
     {
         return temperature;
     }
 
-    public int getThunder()
+    public Integer getThunder()
     {
         return thunder;
     }
 
-    public int getTornado()
+    public Integer getTornado()
     {
         return tornado;
     }
 
-    public float getVisibility()
+    public Float getVisibility()
     {
         return visibility;
     }
 
-    public float getWindSpeed()
+    public Float getWindSpeed()
     {
         return windSpeed;
     }
 
-    public float getWindchillTemperature()
+    public Float getWindchillTemperature()
     {
         return windchillTemperature;
     }
@@ -114,62 +114,62 @@ public class Observation
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
-    public void setFog(int fog)
+    public void setFog(Integer fog)
     {
         this.fog = fog;
     }
 
-    public void setHail(int hail)
+    public void setHail(Integer hail)
     {
         this.hail = hail;
     }
 
-    public void setHumidity(int humidity)
+    public void setHumidity(Integer humidity)
     {
         this.humidity = humidity;
     }
 
-    public void setPressure(float pressure)
+    public void setPressure(Float pressure)
     {
         this.pressure = pressure;
     }
 
-    public void setRain(int rain)
+    public void setRain(Integer rain)
     {
         this.rain = rain;
     }
 
-    public void setSnow(int snow)
+    public void setSnow(Integer snow)
     {
         this.snow = snow;
     }
 
-    public void setTemperature(float temperature)
+    public void setTemperature(Float temperature)
     {
         this.temperature = temperature;
     }
 
-    public void setThunder(int thunder)
+    public void setThunder(Integer thunder)
     {
         this.thunder = thunder;
     }
 
-    public void setTornado(int tornado)
+    public void setTornado(Integer tornado)
     {
         this.tornado = tornado;
     }
 
-    public void setVisibility(float visibility)
+    public void setVisibility(Float visibility)
     {
         this.visibility = visibility;
     }
 
-    public void setWindSpeed(float windSpeed)
+    public void setWindSpeed(Float windSpeed)
     {
         this.windSpeed = windSpeed;
     }
 
-    public void setWindchillTemperature(float windchillTemperature)
+    public void setWindchillTemperature(Float windchillTemperature)
     {
         this.windchillTemperature = windchillTemperature;
     }
@@ -184,17 +184,17 @@ public class Observation
         this.type = type;
     }
 
-    public int getDayOfMonth()
+    public Integer getDayOfMonth()
     {
         return dayOfMonth;
     }
 
-    public int getMonth()
+    public Integer getMonth()
     {
         return month;
     }
 
-    public int getYear()
+    public Integer getYear()
     {
         return year;
     }
@@ -234,7 +234,7 @@ public class Observation
     @Override
     public int hashCode()
     {
-        int hash = 5;
+        Integer hash = 5;
         hash = 43 * hash + (this.city != null ? this.city.hashCode() : 0);
         hash = 43 * hash + (this.date != null ? this.date.hashCode() : 0);
         hash = 43 * hash + (this.type != null ? this.type.hashCode() : 0);

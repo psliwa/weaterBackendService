@@ -5,6 +5,6 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Temperature
 {
-    public float fahrenheit;
-    public float celsius;
+    public Float fahrenheit;
+    public Float celsius;
 }

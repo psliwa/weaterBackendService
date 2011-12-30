@@ -6,11 +6,11 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class ForecastDay
 {
     public DateInformation date;
-    public int period;
+    public Integer period;
     public Temperature high;
     public Temperature low;
     public String conditions;
-    public int pop;
+    public Integer pop;
     
     public Precipitation qpf_allday;
     public Precipitation qpf_day;
@@ -22,7 +22,7 @@ public class ForecastDay
     public Wind maxwind;
     public Wind avewind;
     
-    public int avehumidity;
-    public int maxhumidity;
-    public int minhumidity;
+    public Float avehumidity;
+    public Integer maxhumidity;
+    public Integer minhumidity;
 }

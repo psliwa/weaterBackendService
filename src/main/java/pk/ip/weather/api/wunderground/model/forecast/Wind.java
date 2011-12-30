@@ -5,8 +5,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Wind
 {
-    public float mph;
-    public float kph;
+    public Float mph;
+    public Float kph;
     public String dir;
-    public float degrees;
+    public Float degrees;
 }

@@ -10,17 +10,17 @@ public class Observation
     /**
      * temp w C
      */
-    public float tempm;
+    public Float tempm;
     
     /**
      * wilgotność
      */
-    public int hum;
+    public Integer hum;
     
     /**
      * Kierunek wiatru w stopniach
      */
-    public float wdird;
+    public Float wdird;
     
     /**
      * opis kierunku wiatru (np. SW)
@@ -30,41 +30,41 @@ public class Observation
     /**
      * Siła wiatru w km/h
      */
-    public float wspdm;
+    public Float wspdm;
     
     /**
      * widoczność w Km
      */
-    public float vism;
+    public Float vism;
     
     /**
      * Ciśnienie w mBar
      */
-    public float pressurem;
+    public Float pressurem;
     
     /**
      * Ciśnienie w inHg
      */
-    public float pressurei;
+    public Float pressurei;
     
     /**
      * Odczuwalna temperatura w C
      */
-    public float windchillm;
+    public Float windchillm;
 
     /**
      * współczynnik ciepła w C (?)
      */
-    public float heatindexm;
+    public Float heatindexm;
 
     public String conds;
     public String icon;
     
-    public int fog;
-    public int rain;
-    public int snow;
-    public int hail;
-    public int thunder;
-    public int tornado;
+    public Integer fog;
+    public Integer rain;
+    public Integer snow;
+    public Integer hail;
+    public Integer thunder;
+    public Integer tornado;
     public String metar;
 }

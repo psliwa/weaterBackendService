@@ -5,7 +5,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DateInformation
 {
-    public long epoch;
+    public Long epoch;
     public String pretty;
     public String day;
     public String month;

@@ -28,7 +28,8 @@
     <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
     </bean>
     
-    <bean id="jsonMapper" class="org.codehaus.jackson.map.ObjectMapper" />
+    <bean id="jsonMapperFactory" class="pk.ip.weather.core.JsonObjectMapperFactory" />
+    <bean id="jsonMapper" class="org.codehaus.jackson.map.ObjectMapper" factory-bean="jsonMapperFactory" factory-method="create" />
     
     <bean id="messageParser" class="pk.ip.weather.core.JsonMessageParser">
         <constructor-arg ref="jsonMapper" />

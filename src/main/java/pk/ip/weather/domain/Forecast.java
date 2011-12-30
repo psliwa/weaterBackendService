@@ -7,19 +7,19 @@ public class Forecast
     private City city;
     private Date date;
     
-    private float maxTemperature;
-    private float minTemperature;
+    private Float maxTemperature;
+    private Float minTemperature;
     
-    private float windSpeed;
-    private float humidity;
+    private Float windSpeed;
+    private Float humidity;
     
-    private float snowAll;
-    private float snowDay;
-    private float snowNight;
+    private Float snowAll;
+    private Float snowDay;
+    private Float snowNight;
     
-    private float rainAll;
-    private float rainDay;
-    private float rainNight;
+    private Float rainAll;
+    private Float rainDay;
+    private Float rainNight;
 
     public City getCity()
     {
@@ -41,102 +41,102 @@ public class Forecast
         this.date = date;
     }
 
-    public float getHumidity()
+    public Float getHumidity()
     {
         return humidity;
     }
 
-    public void setHumidity(float humidity)
+    public void setHumidity(Float humidity)
     {
         this.humidity = humidity;
     }
 
-    public float getMaxTemperature()
+    public Float getMaxTemperature()
     {
         return maxTemperature;
     }
 
-    public void setMaxTemperature(float maxTemperature)
+    public void setMaxTemperature(Float maxTemperature)
     {
         this.maxTemperature = maxTemperature;
     }
 
-    public float getMinTemperature()
+    public Float getMinTemperature()
     {
         return minTemperature;
     }
 
-    public void setMinTemperature(float minTemperature)
+    public void setMinTemperature(Float minTemperature)
     {
         this.minTemperature = minTemperature;
     }
 
-    public float getRainAll()
+    public Float getRainAll()
     {
         return rainAll;
     }
 
-    public void setRainAll(float rainAll)
+    public void setRainAll(Float rainAll)
     {
         this.rainAll = rainAll;
     }
 
-    public float getRainDay()
+    public Float getRainDay()
     {
         return rainDay;
     }
 
-    public void setRainDay(float rainDay)
+    public void setRainDay(Float rainDay)
     {
         this.rainDay = rainDay;
     }
 
-    public float getRainNight()
+    public Float getRainNight()
     {
         return rainNight;
     }
 
-    public void setRainNight(float rainNight)
+    public void setRainNight(Float rainNight)
     {
         this.rainNight = rainNight;
     }
 
-    public float getSnowAll()
+    public Float getSnowAll()
     {
         return snowAll;
     }
 
-    public void setSnowAll(float snowAll)
+    public void setSnowAll(Float snowAll)
     {
         this.snowAll = snowAll;
     }
 
-    public float getSnowDay()
+    public Float getSnowDay()
     {
         return snowDay;
     }
 
-    public void setSnowDay(float snowDay)
+    public void setSnowDay(Float snowDay)
     {
         this.snowDay = snowDay;
     }
 
-    public float getSnowNight()
+    public Float getSnowNight()
     {
         return snowNight;
     }
 
-    public void setSnowNight(float snowNight)
+    public void setSnowNight(Float snowNight)
     {
         this.snowNight = snowNight;
     }
 
-    public float getWindSpeed()
+    public Float getWindSpeed()
     {
         return windSpeed;
     }
 
-    public void setWindSpeed(float windSpeed)
+    public void setWindSpeed(Float windSpeed)
     {
         this.windSpeed = windSpeed;
     }

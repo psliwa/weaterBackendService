@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Response
 {
-    public double version;
+    public Double version;
     public String termsofService;
     public Map<String, String> features;
 }

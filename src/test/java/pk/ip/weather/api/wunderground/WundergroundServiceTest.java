@@ -1,6 +1,5 @@
 package pk.ip.weather.api.wunderground;
 
-import pk.ip.weather.api.wunderground.WundergroundService;
 import org.codehaus.jackson.map.ObjectMapper;
 import pk.ip.weather.core.MessageParser;
 import org.junit.*;
