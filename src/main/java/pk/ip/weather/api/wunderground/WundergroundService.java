@@ -50,7 +50,7 @@ public class WundergroundService
     
     public History findHistory(Date date, String location)
     {
-        DateFormat formatter = new SimpleDateFormat("yyyyMd");
+        DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         String feature = "history_"+formatter.format(date);
         
         String url = formatApiUrl(feature, location);
