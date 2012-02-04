@@ -3,11 +3,11 @@ package pk.ip.weather.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
-import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 
 public class HandlerExceptionResolverImpl implements HandlerExceptionResolver
@@ -23,11 +23,8 @@ public class HandlerExceptionResolverImpl implements HandlerExceptionResolver
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
     {
         int statusCode = 200;
-        if(ex instanceof TypeMismatchException)
-        {
-             statusCode = 404;
-        }
-        else if(ex instanceof NoSuchRequestHandlingMethodException)
+        
+        if(ex instanceof TypeMismatchException || ex instanceof NoSuchRequestHandlingMethodException || ex instanceof EmptyResultDataAccessException)
         {
             statusCode = 404;
         }
