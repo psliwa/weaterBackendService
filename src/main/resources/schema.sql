@@ -17,12 +17,12 @@ CREATE TABLE IF NOT EXISTS `observation` (
     `humidity` SMALLINT,
     `visibility` DECIMAL(10, 2),
     `pressure` INT NOT,
-    `fog` BIT NOT,
-    `rain` BIT NOT,
-    `snow` BIT NOT,
-    `hail` BIT NOT,
-    `thunder` BIT NOT,
-    `tornado` BIT NOT,
+    `fog` BIT NOT NULL,
+    `rain` BIT NOT NULL,
+    `snow` BIT NOT NULL,
+    `hail` BIT NOT NULL,
+    `thunder` BIT NOT NULL,
+    `tornado` BIT NOT NULL,
     PRIMARY KEY(`cityId`, `date`, `type`)
 ) ENGINE=InnoDB;
 
@@ -45,4 +45,4 @@ CREATE TABLE IF NOT EXISTS `forecast` (
 ALTER TABLE `observation` ADD CONSTRAINT `city_idx` FOREIGN KEY (`cityId`) REFERENCES `city` (`id`) ON DELETE RESTRICT;
 ALTER TABLE `forecast` ADD CONSTRAINT `city_idx2` FOREIGN KEY (`cityId`) REFERENCES `city` (`id`) ON DELETE RESTRICT;
 
-INSERT INTO `city` (`name`) VALUES ("Kraków"), ("Warszawa"), ("Wrocław"), ("Bydgoszcz"), ("Łódź"), ("Opole"), ("Rzeszów"), ("Białystok"), ("Gdańsk"), ("Katowice"), ("Kielce"), ("Olsztyn"), ("Poznań"), ("Szczecin");
+INSERT INTO `city` (`name`) VALUES ("Kraków"), ("Warszawa"), ("Gdańsk"), ("Katowice");
