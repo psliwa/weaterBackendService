@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `observation` (
     `windchillTemperature` DECIMAL(5, 2),
     `humidity` SMALLINT,
     `visibility` DECIMAL(10, 2),
-    `pressure` INT NOT,
+    `pressure` INT NOT NULL,
     `fog` BIT NOT NULL,
     `rain` BIT NOT NULL,
     `snow` BIT NOT NULL,
