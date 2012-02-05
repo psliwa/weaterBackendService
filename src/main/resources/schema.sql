@@ -45,4 +45,4 @@ CREATE TABLE IF NOT EXISTS `forecast` (
 ALTER TABLE `observation` ADD CONSTRAINT `city_idx` FOREIGN KEY (`cityId`) REFERENCES `city` (`id`) ON DELETE RESTRICT;
 ALTER TABLE `forecast` ADD CONSTRAINT `city_idx2` FOREIGN KEY (`cityId`) REFERENCES `city` (`id`) ON DELETE RESTRICT;
 
-INSERT INTO `city` (`name`) VALUES ("Kraków"), ("Warszawa"), ("Gdańsk"), ("Katowice");
+INSERT INTO `city` (`id`, `name`) VALUES (1, "Kraków"), (2, "Warszawa"), (3, "Gdańsk"), (4, "Katowice");
