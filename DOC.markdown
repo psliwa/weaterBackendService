@@ -1,3 +1,5 @@
+Aplikacja jest częścią projektu akademickiego
+
 Wprowadzenie
 ============
 
